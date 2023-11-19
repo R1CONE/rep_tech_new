@@ -222,3 +222,54 @@ nav a:hover {
     background-attachment: fixed; /* Фиксируем фон, чтобы он не прокручивался вместе с контентом */
 }
 background-image: url(''); /* Замените 'путь_к_вашей_картинке.jpg' на реальный путь к вашему изображению */
+
+
+.menu {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 5px;
+    transition: filter 0.3s;
+}
+
+    .menu-btn img {
+        width: 30px; /* Задайте нужную ширину изображения */
+        height: auto;
+    }
+
+    .menu-btn:hover {
+        filter: brightness(85%);
+    }
+
+.menu-options {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+    .menu-btn:hover + .menu-options,
+    .menu-options:hover {
+        display: block;
+    }
+
+.menu-option {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+    .menu-option:hover {
+        background-color: #f2f2f2;
+    }
