@@ -82,14 +82,45 @@
             <input type="text" id="login" name="login" placeholder="Choose a login">
 
             <label for="email">Email:</label>
-            <input type="text" id="email" name="email" placeholder="Enter your email">
+            <input type="text" id="email" name="email" placeholder="Enter your email" oninput="validateEmail(this)">
+            <span id="emailError" style="color: red;"></span>
+
+<script>
+function validateEmail(input) {
+    var email = input.value;
+    var emailError = document.getElementById('emailError');
+
+    if (!email.includes('@')) {
+        emailError.innerHTML = 'Email must contain @ symbol';
+        input.setCustomValidity('Email must contain @ symbol');
+    } else {
+        emailError.innerHTML = '';
+        input.setCustomValidity('');
+    }
+}
+</script>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter password">
 
             <label for="telephone_number">Phone Number:</label>
-            <input type="text" id="telephone_number" name="telephone_number" placeholder="Enter phone number">
+            <input type="text" id="telephone_number" name="telephone_number" placeholder="Enter phone number" oninput="validatePhoneNumber(this)">
+            <span id="phoneNumberError" style="color: red;"></span>
 
+<script>
+function validatePhoneNumber(input) {
+    var phoneNumber = input.value;
+    var phoneNumberError = document.getElementById('phoneNumberError');
+
+    if (!phoneNumber.startsWith('+')) {
+        phoneNumberError.innerHTML = 'Phone number must start with + symbol';
+        input.setCustomValidity('Phone number must start with + symbol');
+    } else {
+        phoneNumberError.innerHTML = '';
+        input.setCustomValidity('');
+    }
+}
+</script>
             <input type="submit" value="Register">
             
         </form>
@@ -108,35 +139,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($userLogin) && !empty($userPassword)) {
         $servername = "localhost";
         $username = "root";
-        $dbPassword = ""; // replace with your database password
+        $dbPassword = ""; // замените на пароль базы данных
         $database = "try_bd";
 
-        // Create a database connection
+        // Создайте подключение к базе данных
         $conn = new mysqli($servername, $username, $dbPassword, $database);
 
-        // Check the connection
+        // Проверка подключения
         if ($conn->connect_error) {
-            die("Connection error: " . $conn->connect_error);
+            die("Błąd połączenia z bazą danych: " . $conn->connect_error);
         } else {
-            // Prepared statement for inserting data
+            // Подготовленный запрос для вставки данных
             $sql = "INSERT INTO accounts (login, password, name, surname, telefnum, email) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             
-            // Bind parameters
+            // Привязываем параметры
             $stmt->bind_param("ssssss", $userLogin, $userPassword, $userName, $userSurname, $userTelephoneNumber, $userEmail);
             
-            // Execute the query
+            // Выполняем запрос
             $stmt->execute();
             
-            echo "Successfully registered!";
+            echo "Успешно зарегистрировано!";
             
-            // Close the prepared statement and connection
+            // Закрываем подготовленное выражение и соединение
             $stmt->close();
             $conn->close();
         }
     }
 }
 ?>
-
 </body>
 </html>
